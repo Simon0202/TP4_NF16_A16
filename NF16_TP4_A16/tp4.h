@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define maxName 50
 
@@ -46,4 +47,14 @@ ListBenevoles *nouvelleListe();
 //*****Ajout*****
 //***************
 Tranche *ajoutTranche(Tranche *racine, int borneSup);
+Benevole *insererBen(Tranche *racine, Benevole *benevole);
 
+
+//Addeed
+int calculTranche(Benevole *benevole);
+int ajoutBenevole(ListBenevoles* liste,Benevole *benevole);
+void ParcoursArbre(Tranche *racine);
+
+
+//Time
+int anneeActuelle();
