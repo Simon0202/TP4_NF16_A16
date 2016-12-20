@@ -1,11 +1,3 @@
-//
-//  tp4.c
-//  NF16_TP4_A16
-//
-//  Created by LAURENT SIMON on 16/12/2016.
-//  Copyright © 2016 LAURENT SIMON. All rights reserved.
-//
-
 #include "tp4.h"
 
 //***************************************
@@ -77,27 +69,4 @@ Tranche *ajoutTranche(Tranche *racine, int borneSup){
 }
 
 
-
-
-//Addeed
-Tranche *parcours_abre(Tranche *racine, int borneSup){
-    if(racine>borneSup){
-        if(racine->filsG==NULL)
-            return racine;
-        else
-            parcours_arbre(racine->filsG, borneSup);
-    }
-    else if(racine<borneSup){
-        if(racine->filsD==NULL)
-            return racine;
-        else
-            return parcours_abre(racine->filsD, borneSup);
-    }
-    
-}
-
-
-
-
-
-
+t

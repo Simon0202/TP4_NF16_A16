@@ -1,11 +1,3 @@
-//
-//  tp4.h
-//  NF16_TP4_A16
-//
-//  Created by LAURENT SIMON on 16/12/2016.
-//  Copyright © 2016 LAURENT SIMON. All rights reserved.
-//
-
 #ifndef tp4_h
 #define tp4_h
 
@@ -55,8 +47,3 @@ ListBenevoles *nouvelleListe();
 //***************
 Tranche *ajoutTranche(Tranche *racine, int borneSup);
 
-
-
-
-//Added
-Tranche *parcours_abre(Tranche *racine, int borneSup);;
