@@ -53,6 +53,7 @@ Benevole *insererBen(Tranche *racine, Benevole *benevole);
 //*****Recherche*****
 //*******************
 Benevole *chercherBen(Tranche *racine,int CIN, int annee);
+ListBenevoles *BenDhonneur(Tranche *racine);
 
 
 

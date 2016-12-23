@@ -1,3 +1,8 @@
+/*
+Il faut changer l'ordre dans les listes (croissant et non décroissant)
+ 
+*/
+
 #include "tp4.h"
 
 int main() {
@@ -11,6 +16,8 @@ int main() {
     Benevole *ben8 = nouveauBen("Pierre", "Durand", 2, 'M', 1941);
     Benevole *ben9 = nouveauBen("Fab", "Louise", 3, 'F', 1943);
     Benevole *ben10 = nouveauBen("z", "a", 1, 'M', 1944);
+    
+
     
     
     Tranche *racine = ajoutTranche(NULL,35);
@@ -30,11 +37,21 @@ int main() {
     insererBen(racine, ben8);
     insererBen(racine, ben9);
     insererBen(racine, ben10);
+    insererBen(racine, ben11);
+    insererBen(racine, ben12);
     
     printf("Le benevole s'appelle: %s\n", chercherBen(racine, 123, 1995)->prenom);
     printf("Le benevole s'appelle: %s\n", chercherBen(racine, 3, 1943)->prenom);
     
     ParcoursArbre(racine);
+    
+    
+    ListBenevoles *liste = BenDhonneur(racine);
+    
+    while(liste->benevole!=NULL){
+        printf("\n%s\n",liste->benevole->prenom);
+        liste->benevole = liste->benevole->suivant;
+    }
     
     
     

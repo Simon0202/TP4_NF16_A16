@@ -152,7 +152,41 @@ Benevole *chercherBen(Tranche *racine,int CIN, int annee){
     
     return benevoleRecherche;
 }
+//Fin de chercherBen
 
+
+ListBenevoles *BenDhonneur(Tranche *racine){
+    int anneeMax;
+    Benevole *benevoleMax = NULL;
+    Benevole *benevole = NULL;
+    ListBenevoles *listHonneur = nouvelleListe();
+    
+    
+    while(racine->filsD!=NULL)
+        racine = racine->filsD;
+    
+    if(racine==NULL)
+        return NULL;
+    
+    benevoleMax = racine->listBenevole->benevole;
+    benevole = racine->listBenevole->benevole;
+    
+    while(benevoleMax->suivant!=NULL)
+        benevoleMax = benevoleMax->suivant;
+    
+    anneeMax = benevoleMax->anneeDeNaissance;
+    
+    while(benevole->anneeDeNaissance!=anneeMax)
+        benevole = benevole->suivant;
+    
+    
+    while(benevole != NULL && benevole->anneeDeNaissance==anneeMax){
+        ajoutBenevole(listHonneur, benevole);
+        benevole = benevole->suivant;
+    }
+    
+    return listHonneur;
+}
 
 
 
