@@ -63,5 +63,12 @@ int main() {
     
     printf("Fin de la phase de test des fonctions.\n");
 
+    
+    //**************
+    //*****Menu*****
+    //**************
+    
+    
+    
     return 0;
 }

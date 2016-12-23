@@ -8,6 +8,9 @@
 
 #define maxName 50
 
+
+
+
 //********************
 //*****Structures*****
 //********************
@@ -34,13 +37,14 @@ typedef struct Tranche{
 }Tranche;
 
 
+
 //***************************************
 //*****Initialisation des structures*****
 //***************************************
 Benevole *nouveauBen(char *nom, char *prenom, int CIN, char sexe, int annee);
 Tranche *nouvelleTranche(int borneSup);
 ListBenevoles *nouvelleListe();
-#endif /* tp4_h */
+
 
 
 //***************
@@ -49,6 +53,8 @@ ListBenevoles *nouvelleListe();
 Tranche *ajoutTranche(Tranche *racine, int borneSup);
 Benevole *insererBen(Tranche *racine, Benevole *benevole);
 
+
+
 //*******************
 //*****Recherche*****
 //*******************
@@ -56,14 +62,18 @@ Benevole *chercherBen(Tranche *racine,int CIN, int annee);
 ListBenevoles *BenDhonneur(Tranche *racine);
 
 
+
 //*********************
 //*****Suppression*****
 //*********************
 
 
+
 //*********************
 //*****Mise a Jour*****
 //*********************
+
+
 
 //*******************
 //*****Affichage*****
@@ -81,5 +91,10 @@ int ajoutBenevole(ListBenevoles* liste,Benevole *benevole);
 void ParcoursArbre(Tranche *racine);
 
 
+
 //Time
 int anneeActuelle();
+
+
+
+#endif /* tp4_h */

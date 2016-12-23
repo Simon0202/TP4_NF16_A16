@@ -19,9 +19,11 @@ Benevole *nouveauBen(char *nom, char *prenom, int CIN, char sexe, int annee){
     
     newBenevole->suivant = NULL;
     
-    
     return newBenevole;
 }
+//Fin de nouveauBen
+
+
 
 ListBenevoles *nouvelleListe(){
     ListBenevoles *newListe = malloc(sizeof(struct ListBenevoles));
@@ -33,6 +35,9 @@ ListBenevoles *nouvelleListe(){
     
     return newListe;
 }
+//Fin de nouvelleListe
+
+
 
 Tranche *nouvelleTranche(int borneSup){
     Tranche *newTranche = malloc(sizeof(struct Tranche));
@@ -47,12 +52,17 @@ Tranche *nouvelleTranche(int borneSup){
     
     return newTranche;
 }
+//Fin de nouvelleTranche
+
+
+
 
 
 //***************
 //*****Ajout*****
 //***************
 Tranche *ajoutTranche(Tranche *racine, int borneSup){
+    
     
     Tranche *ajoutElement = NULL;
     Tranche *pere=NULL;
@@ -94,6 +104,9 @@ Tranche *ajoutTranche(Tranche *racine, int borneSup){
 //Fin ajoutTranche
 
 
+
+
+
 Benevole *insererBen(Tranche *racine, Benevole *benevole){
     Tranche *TrancheBenevole = racine;
     
@@ -123,6 +136,12 @@ Benevole *insererBen(Tranche *racine, Benevole *benevole){
 //Fin de InsererBenevole
 
 
+
+
+
+//*******************
+//*****Recherche*****
+//*******************
 //On choisit de passer annee par copie. Aucun interet au passage par adresse
 Benevole *chercherBen(Tranche *racine,int CIN, int annee){
     int borneSup = calculTrancheAnnee(annee);
@@ -153,6 +172,9 @@ Benevole *chercherBen(Tranche *racine,int CIN, int annee){
     return benevoleRecherche;
 }
 //Fin de chercherBen
+
+
+
 
 
 ListBenevoles *BenDhonneur(Tranche *racine){
@@ -191,6 +213,8 @@ ListBenevoles *BenDhonneur(Tranche *racine){
 
 
 
+
+
 //*********************
 //*****Suppression*****
 //*********************
@@ -200,12 +224,14 @@ ListBenevoles *BenDhonneur(Tranche *racine){
 //*****Mise a Jour*****
 //*********************
 
+
+
+
+
+
 //*******************
 //*****Affichage*****
 //*******************
-void afficherTranche(Tranche *racine, int borneSup);
-
-
 void afficherTranche(Tranche *racine, int borneSup){
     Benevole *benevoles = NULL;
     
@@ -233,9 +259,7 @@ void afficherTranche(Tranche *racine, int borneSup){
         }
     }
 }
-
-
-
+//Fin de afficher tranche
 
 
 
@@ -254,6 +278,10 @@ int calculTrancheBenevole(Benevole *benevole){
 }
 //Fin de calculTranche
 
+
+
+
+
 int calculTrancheAnnee(int annee){
     int age = anneeActuelle()-annee;
     int modulo = age%5;
@@ -263,6 +291,9 @@ int calculTrancheAnnee(int annee){
         return age-modulo+5;
     
 }
+
+
+
 
 
 int ajoutBenevole(ListBenevoles* liste,Benevole *benevole){
@@ -309,6 +340,10 @@ int ajoutBenevole(ListBenevoles* liste,Benevole *benevole){
 }
 //Fin de ajoutBenevole
 
+
+
+
+
 void ParcoursArbre(Tranche *racine){
     if(racine->filsG!=NULL)
         ParcoursArbre(racine->filsG);
@@ -318,6 +353,10 @@ void ParcoursArbre(Tranche *racine){
     }
 }
 //Fin de ParcoursArbre
+
+
+
+
 
 //Time
 int anneeActuelle(){
