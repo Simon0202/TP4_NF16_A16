@@ -104,20 +104,20 @@ Benevole *insererBen(Tranche *racine, Benevole *benevole){
         if(TrancheBenevole->borneSup>borneSup)
             TrancheBenevole = TrancheBenevole->filsG;
         else
-            TrancheBenevole = TrancheBenevole->filsG;
+            TrancheBenevole = TrancheBenevole->filsD;
     }
     
-    if(racine==NULL)
+    if(TrancheBenevole==NULL)
         TrancheBenevole = ajoutTranche(racine, borneSup);
 
     
     if(ajoutBenevole(TrancheBenevole->listBenevole, benevole)==1){
-        printf("ajout reussi");
+        printf("ajout reussi\n");
         return benevole;
     }
 
     else{
-        printf("aucun ajout");
+        printf("aucun ajout\n");
         return NULL;
     }
 }
@@ -128,13 +128,15 @@ Benevole *insererBen(Tranche *racine, Benevole *benevole){
 int calculTranche(Benevole *benevole){
     int age = anneeActuelle()-benevole->anneeDeNaissance;
     int modulo = age%5;
-    return age-modulo+5;
+    if(age%5==0)
+        return age;
+    else
+        return age-modulo+5;
 }
 //Fin de calculTranche
 
 
 int ajoutBenevole(ListBenevoles* liste,Benevole *benevole){
-    
     Benevole *premier = liste->benevole;
     Benevole *precedent = NULL;
     
@@ -143,35 +145,38 @@ int ajoutBenevole(ListBenevoles* liste,Benevole *benevole){
         liste->nbreElement++;
         return 1;
     }
-    else{
-        while(premier!=NULL && premier->anneeDeNaissance!=benevole->anneeDeNaissance){
+    while(premier!=NULL && premier->anneeDeNaissance!=benevole->anneeDeNaissance && premier->anneeDeNaissance<=benevole->anneeDeNaissance){
             precedent = premier;
             premier = premier->suivant;
-        }
-        while(premier!=NULL && premier->carteIdentite!=benevole->carteIdentite && premier->anneeDeNaissance==benevole->anneeDeNaissance){
-            precedent = premier;
-            premier = premier->suivant;
-        }
-        
-        
-        if(premier==NULL){
-            precedent->suivant = benevole;
-            benevole->suivant = premier;
-            liste->nbreElement++;
-            return 1;
-        }
-        else if(premier->carteIdentite==benevole->carteIdentite){
-            printf("Personne déjà existante");
-            return 0;
-        }
-        else{
-            precedent->suivant = benevole;
-            benevole->suivant = premier;
-            liste->nbreElement++;
-            return 1;
-        }
-        
     }
+    while(premier!=NULL && premier->carteIdentite!=benevole->carteIdentite && premier->anneeDeNaissance<=benevole->anneeDeNaissance){
+            precedent = premier;
+            premier = premier->suivant;
+    }
+    
+    if(premier==NULL){
+        precedent->suivant = benevole;
+        benevole->suivant = premier;
+        liste->nbreElement++;
+        return 1;
+    }
+    if(premier->carteIdentite==benevole->carteIdentite){
+        printf("Personne déjà existante\n");
+        return 0;
+    }
+    
+
+    if(precedent!=NULL){
+        precedent->suivant = benevole;
+        benevole->suivant = premier;
+        liste->nbreElement++;
+        return 1;
+    }
+        
+    benevole->suivant = premier;
+    liste->benevole = benevole;
+    liste->nbreElement++;
+    return 1;
 }
 //Fin de ajoutBenevole
 
