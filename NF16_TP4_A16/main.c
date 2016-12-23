@@ -20,9 +20,6 @@ int main() {
     ajoutTranche(racine, 65);
     ajoutTranche(racine, 75);
     
-    
-    //ParcoursArbre(racine);
-    
     insererBen(racine, ben1);
     insererBen(racine, ben2);
     insererBen(racine, ben3);
@@ -34,10 +31,14 @@ int main() {
     insererBen(racine, ben9);
     insererBen(racine, ben10);
     
+    printf("Le benevole s'appelle: %s\n", chercherBen(racine, 123, 1995)->prenom);
+    printf("Le benevole s'appelle: %s\n", chercherBen(racine, 3, 1943)->prenom);
+    
+    ParcoursArbre(racine);
     
     
     
-    printf("coucou");
+    printf("Phase de test\n");
 
     return 0;
 }

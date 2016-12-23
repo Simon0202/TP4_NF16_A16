@@ -94,11 +94,10 @@ Tranche *ajoutTranche(Tranche *racine, int borneSup){
 //Fin ajoutTranche
 
 
-//Écrire la fonction qui permet d’ajouter un bénévole dans un ABR. Si la tranche d’âge à laquelle devrait appar- tenir le bénévole n’existe pas, elle devra être créée. L’ajout se fait en respectant le tri par ordre croissant d’âge du bénévole. Si ce bénévole est déjà présent dans une liste, il ne sera pas ajouté.
 Benevole *insererBen(Tranche *racine, Benevole *benevole){
     Tranche *TrancheBenevole = racine;
     
-    int borneSup = calculTranche(benevole);
+    int borneSup = calculTrancheBenevole(benevole);
     
     while(TrancheBenevole!=NULL && TrancheBenevole->borneSup!=borneSup){
         if(TrancheBenevole->borneSup>borneSup)
@@ -121,11 +120,55 @@ Benevole *insererBen(Tranche *racine, Benevole *benevole){
         return NULL;
     }
 }
+//Fin de InsererBenevole
+
+
+//On choisit de passer annee par copie
+Benevole *chercherBen(Tranche *racine,int CIN, int annee){
+    int borneSup = calculTrancheAnnee(annee);
+    Benevole *benevoleRecherche = NULL;
+    
+    while(racine!=NULL && racine->borneSup!=borneSup){
+        if(racine->borneSup > borneSup)
+            racine=racine->filsG;
+        else if(racine->borneSup < borneSup)
+            racine= racine->filsD;
+    }
+
+    if(racine==NULL){
+        printf("Le benevole recherche n'existe pas");
+        return NULL;
+    }
+    
+     benevoleRecherche = racine->listBenevole->benevole;
+    
+    while(benevoleRecherche!=NULL && benevoleRecherche->carteIdentite!=CIN)
+        benevoleRecherche = benevoleRecherche->suivant;
+    
+    if(benevoleRecherche==NULL){
+        printf("Le benevole recherche n'existe pas");
+        return NULL;
+    }
+    
+    return benevoleRecherche;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 //****************
 //*****Addeed*****
 //****************
-int calculTranche(Benevole *benevole){
+int calculTrancheBenevole(Benevole *benevole){
     int age = anneeActuelle()-benevole->anneeDeNaissance;
     int modulo = age%5;
     if(age%5==0)
@@ -134,6 +177,16 @@ int calculTranche(Benevole *benevole){
         return age-modulo+5;
 }
 //Fin de calculTranche
+
+int calculTrancheAnnee(int annee){
+    int age = anneeActuelle()-annee;
+    int modulo = age%5;
+    if(age%5==0)
+        return age;
+    else
+        return age-modulo+5;
+    
+}
 
 
 int ajoutBenevole(ListBenevoles* liste,Benevole *benevole){

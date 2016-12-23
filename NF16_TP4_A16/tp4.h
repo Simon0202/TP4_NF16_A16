@@ -49,9 +49,18 @@ ListBenevoles *nouvelleListe();
 Tranche *ajoutTranche(Tranche *racine, int borneSup);
 Benevole *insererBen(Tranche *racine, Benevole *benevole);
 
+//*******************
+//*****Recherche*****
+//*******************
+Benevole *chercherBen(Tranche *racine,int CIN, int annee);
 
-//Addeed
-int calculTranche(Benevole *benevole);
+
+
+//****************
+//*****Addeed*****
+//****************
+int calculTrancheBenevole(Benevole *benevole);
+int calculTrancheAnnee(int annee);
 int ajoutBenevole(ListBenevoles* liste,Benevole *benevole);
 void ParcoursArbre(Tranche *racine);
 
