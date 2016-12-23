@@ -56,6 +56,21 @@ Benevole *chercherBen(Tranche *racine,int CIN, int annee);
 ListBenevoles *BenDhonneur(Tranche *racine);
 
 
+//*********************
+//*****Suppression*****
+//*********************
+
+
+//*********************
+//*****Mise a Jour*****
+//*********************
+
+//*******************
+//*****Affichage*****
+//*******************
+void afficherTranche(Tranche *racine, int borneSup);
+
+
 
 //****************
 //*****Addeed*****

@@ -1,11 +1,15 @@
 /*
-Il faut changer l'ordre dans les listes (croissant et non décroissant)
+Commentaires relatifs au projet:
+ 
  
 */
 
 #include "tp4.h"
 
 int main() {
+    
+    printf("Debut de la phase de test des fonctions.\n");
+    
     Benevole *ben1 = nouveauBen("John", "Mears", 123, 'M', 1995);
     Benevole *ben2 = nouveauBen("Rose", "Mary", 12, 'F', 1963);
     Benevole *ben3 = nouveauBen("Julie", "Moo", 73, 'F', 2010);
@@ -16,7 +20,7 @@ int main() {
     Benevole *ben8 = nouveauBen("Pierre", "Durand", 2, 'M', 1941);
     Benevole *ben9 = nouveauBen("Fab", "Louise", 3, 'F', 1943);
     Benevole *ben10 = nouveauBen("z", "a", 1, 'M', 1944);
-    
+    Benevole *ben11 = nouveauBen("a", "a", 20, 'M', 1941);
 
     
     
@@ -38,24 +42,25 @@ int main() {
     insererBen(racine, ben9);
     insererBen(racine, ben10);
     insererBen(racine, ben11);
-    insererBen(racine, ben12);
+
     
     printf("Le benevole s'appelle: %s\n", chercherBen(racine, 123, 1995)->prenom);
     printf("Le benevole s'appelle: %s\n", chercherBen(racine, 3, 1943)->prenom);
     
     ParcoursArbre(racine);
+    printf("\n");
     
     
     ListBenevoles *liste = BenDhonneur(racine);
     
     while(liste->benevole!=NULL){
-        printf("\n%s\n",liste->benevole->prenom);
+        printf("%s\n",liste->benevole->prenom);
         liste->benevole = liste->benevole->suivant;
     }
     
     
     
-    printf("Phase de test\n");
+    printf("Fin de la phase de test des fonctions.\n");
 
     return 0;
 }

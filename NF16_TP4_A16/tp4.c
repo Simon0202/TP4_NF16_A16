@@ -123,7 +123,7 @@ Benevole *insererBen(Tranche *racine, Benevole *benevole){
 //Fin de InsererBenevole
 
 
-//On choisit de passer annee par copie
+//On choisit de passer annee par copie. Aucun interet au passage par adresse
 Benevole *chercherBen(Tranche *racine,int CIN, int annee){
     int borneSup = calculTrancheAnnee(annee);
     Benevole *benevoleRecherche = NULL;
@@ -187,6 +187,7 @@ ListBenevoles *BenDhonneur(Tranche *racine){
     
     return listHonneur;
 }
+//Fin de benevole d'honneur.
 
 
 
@@ -232,11 +233,11 @@ int ajoutBenevole(ListBenevoles* liste,Benevole *benevole){
         liste->nbreElement++;
         return 1;
     }
-    while(premier!=NULL && premier->anneeDeNaissance!=benevole->anneeDeNaissance && premier->anneeDeNaissance<=benevole->anneeDeNaissance){
+    while(premier!=NULL && premier->anneeDeNaissance!=benevole->anneeDeNaissance && premier->anneeDeNaissance>=benevole->anneeDeNaissance){
             precedent = premier;
             premier = premier->suivant;
     }
-    while(premier!=NULL && premier->carteIdentite!=benevole->carteIdentite && premier->anneeDeNaissance<=benevole->anneeDeNaissance){
+    while(premier!=NULL && premier->carteIdentite!=benevole->carteIdentite && premier->anneeDeNaissance>=benevole->anneeDeNaissance){
             precedent = premier;
             premier = premier->suivant;
     }
