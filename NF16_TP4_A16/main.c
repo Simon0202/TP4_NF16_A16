@@ -58,7 +58,8 @@ int main() {
         liste->benevole = liste->benevole->suivant;
     }
     
-    
+    afficherTranche(racine, 75);
+    afficherTranche(racine, 35);
     
     printf("Fin de la phase de test des fonctions.\n");
 

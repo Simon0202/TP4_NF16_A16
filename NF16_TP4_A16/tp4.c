@@ -191,7 +191,48 @@ ListBenevoles *BenDhonneur(Tranche *racine){
 
 
 
+//*********************
+//*****Suppression*****
+//*********************
 
+
+//*********************
+//*****Mise a Jour*****
+//*********************
+
+//*******************
+//*****Affichage*****
+//*******************
+void afficherTranche(Tranche *racine, int borneSup);
+
+
+void afficherTranche(Tranche *racine, int borneSup){
+    Benevole *benevoles = NULL;
+    
+    
+    while(racine!=NULL && racine->borneSup!=borneSup)
+        if(racine->borneSup<borneSup)
+            racine = racine->filsD;
+        else
+            racine = racine->filsG;
+    
+    benevoles = racine->listBenevole->benevole;
+    
+    if(benevoles==NULL){
+        printf("Aucun benevole pour cette tranche d'age\n");
+    }
+    else{
+        while(benevoles!=NULL){
+            printf("%c\t",benevoles->sexe);
+            printf("%s\t", benevoles->nom);
+            printf("%s\t", benevoles->prenom);
+            printf("%d\t",benevoles->anneeDeNaissance);
+            printf("CIN:%d\n",benevoles->carteIdentite);
+        
+            benevoles = benevoles->suivant;
+        }
+    }
+}
 
 
 
