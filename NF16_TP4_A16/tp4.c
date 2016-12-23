@@ -54,7 +54,6 @@ Tranche *nouvelleTranche(int borneSup){
 //***************
 Tranche *ajoutTranche(Tranche *racine, int borneSup){
     
-    Tranche *rememberRoot = racine;
     Tranche *ajoutElement = NULL;
     Tranche *pere=NULL;
     
@@ -63,14 +62,13 @@ Tranche *ajoutTranche(Tranche *racine, int borneSup){
             pere = racine;
             racine = racine->filsD;
         }
-        
         else if(racine->borneSup>borneSup){
             pere = racine;
             racine = racine->filsG;
         }
         else{
-            printf("Le noeud existe déjà");
-            racine = NULL;
+            printf("Le noeud existe déjà\n");
+            return NULL;
         }
     }
     
@@ -79,8 +77,17 @@ Tranche *ajoutTranche(Tranche *racine, int borneSup){
         return racine;
     }
     else{
-        ajoutElement = nouvelleTranche(borneSup);
-        ajoutElement->pere = pere;
+        if(pere->borneSup>borneSup){
+            ajoutElement = nouvelleTranche(borneSup);
+            ajoutElement->pere = pere;
+            pere->filsG = ajoutElement;
+        }
+        else{
+            ajoutElement = nouvelleTranche(borneSup);
+            ajoutElement->pere = pere;
+            pere->filsD = ajoutElement;
+        }
+
         return ajoutElement;
     }
 }
@@ -115,13 +122,15 @@ Benevole *insererBen(Tranche *racine, Benevole *benevole){
     }
 }
 
-
-//Addeed
+//****************
+//*****Addeed*****
+//****************
 int calculTranche(Benevole *benevole){
     int age = anneeActuelle()-benevole->anneeDeNaissance;
     int modulo = age%5;
     return age-modulo+5;
 }
+//Fin de calculTranche
 
 
 int ajoutBenevole(ListBenevoles* liste,Benevole *benevole){
@@ -164,7 +173,7 @@ int ajoutBenevole(ListBenevoles* liste,Benevole *benevole){
         
     }
 }
-
+//Fin de ajoutBenevole
 
 void ParcoursArbre(Tranche *racine){
     if(racine->filsG!=NULL)
@@ -174,6 +183,7 @@ void ParcoursArbre(Tranche *racine){
         ParcoursArbre(racine->filsD);
     }
 }
+//Fin de ParcoursArbre
 
 //Time
 int anneeActuelle(){
@@ -181,4 +191,4 @@ int anneeActuelle(){
     struct tm instant; time(&secondes);
     instant = *localtime(&secondes); return instant.tm_year + 1900;
 }
-
+//Fin de anneeActuelle

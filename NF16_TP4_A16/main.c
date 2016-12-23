@@ -7,8 +7,7 @@ int main() {
     Benevole *ben4 = nouveauBen("Benoit", "Dalaglio", 99, 'M', 2000);
     
     
-    Tranche *racine = NULL;
-    ajoutTranche(racine,35);
+    Tranche *racine = ajoutTranche(NULL,35);
     ajoutTranche(racine, 25);
     ajoutTranche(racine, 55);
     ajoutTranche(racine, 45);
