@@ -64,10 +64,16 @@ int main() {
     
     afficherTranche(racine, 75);
     afficherTranche(racine, 35);
-    
-    
+    afficherArbre(racine);
+    printf("%d",actualiser(racine));
+    printf("\n");
+    afficherArbre(racine);
+    printf("\n");
+    afficherTranche(racine, 80);
+    printf("\n");;
+    afficherTranche(racine, 75);
 
-    
+ 
     //-------------------------
     supprimerBen(racine, 13 , 1942);    //supprimer un benevole
     afficherTranche(racine, 75);
@@ -85,10 +91,10 @@ int main() {
     supprimerTranche(racine, 35);
     printf("\n");
     afficherArbre(racine);
-     */
-    
+ 
   printf("\nFin de la phase de test des fonctions.\n");
-  
+*/
+    
     
     //**************
     //*****Menu*****
@@ -196,7 +202,7 @@ int main() {
                     printf("\n");
                     break;
                 case 10:
-                    printf("Fonction en cours de developpement");
+                    printf("Il y a eu %d actualisation(s):",actualiser(racine));
                     printf("\n");
                     break;
                 case 11:

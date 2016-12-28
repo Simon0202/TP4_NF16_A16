@@ -190,24 +190,29 @@ ListBenevoles *BenDhonneur(Tranche *racine){
     if(racine==NULL)
         return NULL;
     
-    benevoleMax = racine->listBenevole->benevole;
-    benevole = racine->listBenevole->benevole;
-    
-    while(benevoleMax->suivant!=NULL)
-        benevoleMax = benevoleMax->suivant;
-    
-    anneeMax = benevoleMax->anneeDeNaissance;
-    
-    while(benevole->anneeDeNaissance!=anneeMax)
-        benevole = benevole->suivant;
-    
-    
-    while(benevole != NULL && benevole->anneeDeNaissance==anneeMax){
-        ajoutBenevole(listHonneur, benevole);
-        benevole = benevole->suivant;
+    if(racine->listBenevole->benevole==NULL){
+        return NULL;
     }
+    else{
+        benevoleMax = racine->listBenevole->benevole;
+        benevole = racine->listBenevole->benevole;
     
-    return listHonneur;
+        while(benevoleMax->suivant!=NULL)
+            benevoleMax = benevoleMax->suivant;
+    
+        anneeMax = benevoleMax->anneeDeNaissance;
+    
+        while(benevole->anneeDeNaissance!=anneeMax)
+            benevole = benevole->suivant;
+    
+    
+        while(benevole != NULL && benevole->anneeDeNaissance==anneeMax){
+            ajoutBenevole(listHonneur, benevole);
+            benevole = benevole->suivant;
+        }
+    
+        return listHonneur;
+    }
 }
 //Fin de benevole d'honneur.
 
@@ -479,18 +484,51 @@ int supprimerTranche(Tranche *racine, int borneSup){
     tranche_a_supprimer = NULL;
     return 1;
 }
-
 //fin de supprimer Tranche
-
-
-
-
 
 
 //*********************
 //*****Mise a Jour*****
 //*********************
 
+//Quand un bénévole ne fait plus partie d’une certaine tranche d’âge, il devra être déplacé vers la tranche d’âge
+//adéquate. Écrire la fonction qui permet d’actualiser l’ABR. Elle renvoie le nombre de personne déplacées.
+int actualiser(Tranche *racine){
+    int cmptTransfert = 0;
+    Benevole *list_a_parcourir = NULL;
+    ListBenevoles *listeActualisation = NULL;
+    
+    ListBenevoles *listAncien = BenDhonneur(racine);
+        
+    if(listAncien==NULL){
+        printf("aucun benevole dans l'arbre");
+        return 0;
+    }
+    else{
+        int borneSupMax = calculTrancheAnnee(listAncien->benevole->anneeDeNaissance)+5;
+        
+        while(racine->borneSup!=borneSupMax-5){
+            racine = racine->filsD;
+        }
+        
+        list_a_parcourir = racine->listBenevole->benevole;
+        
+        while(list_a_parcourir->suivant->anneeDeNaissance!=listAncien->benevole->anneeDeNaissance){
+            list_a_parcourir = list_a_parcourir->suivant;
+        }
+        list_a_parcourir->suivant=NULL;
+        
+        listeActualisation = ajoutTranche(racine, borneSupMax)->listBenevole;
+        
+        while(listAncien->benevole!=NULL){
+            ajoutBenevole(listeActualisation, listAncien->benevole);
+            listAncien->benevole = listAncien->benevole->suivant;
+            cmptTransfert++;
+    }
+    
+        return cmptTransfert;
+    }
+}
 
 
 //**********************
