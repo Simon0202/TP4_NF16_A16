@@ -1,7 +1,7 @@
 /*
 Commentaires relatifs au projet:
  
- Problème avec le CIN
+ On ne doit pas pouvoir supprimer la racine depuis une fonction autre que la 12 détruire arbre
 */
 
 #include "tp4.h"
