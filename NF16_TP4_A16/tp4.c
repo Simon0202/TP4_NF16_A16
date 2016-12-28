@@ -514,20 +514,25 @@ void afficherTranche(Tranche *racine, int borneSup){
         else
             racine = racine->filsG;
     
-    benevoles = racine->listBenevole->benevole;
-    
-    if(benevoles==NULL){
-        printf("Aucun benevole pour cette tranche d'age\n");
+    if(racine==NULL){
+        printf("la tranche d age n existe pas");
     }
     else{
-        while(benevoles!=NULL){
-            printf("%c\t",benevoles->sexe);
-            printf("%s\t", benevoles->nom);
-            printf("%s\t", benevoles->prenom);
-            printf("%d\t",benevoles->anneeDeNaissance);
-            printf("CIN:%d\n",benevoles->carteIdentite);
+        benevoles = racine->listBenevole->benevole;
+    
+        if(benevoles==NULL){
+            printf("Aucun benevole pour cette tranche d'age\n");
+        }
+        else{
+            while(benevoles!=NULL){
+                printf("%c\t",benevoles->sexe);
+                printf("%s\t", benevoles->nom);
+                printf("%s\t", benevoles->prenom);
+                printf("%d\t",benevoles->anneeDeNaissance);
+                printf("CIN:%d\n",benevoles->carteIdentite);
         
-            benevoles = benevoles->suivant;
+                benevoles = benevoles->suivant;
+            }
         }
     }
 }
@@ -730,14 +735,6 @@ float pourcentageTranche(Tranche *racine, int borneSup){
         return totalTranche/total*100;
 }
 //Fin de pourcentage de bénévoles d’une tranche d’âge.
-
-
-
-
-
-
-
-
 
 
 //Time

@@ -1,17 +1,17 @@
 /*
 Commentaires relatifs au projet:
  
- 
+ Problème avec le CIN
 */
 
 #include "tp4.h"
 
 int main() {
-    int mise_en_route = 1;
+    int mise_en_route = 1, quitter=0;;
     int choix=0;
     Tranche *racine = NULL;
     
-    /*
+/*
     printf("Debut de la phase de test des fonctions.\n");
     
     Benevole *ben1 = nouveauBen("John", "Mears", 123, 'M', 1995);
@@ -27,8 +27,8 @@ int main() {
     Benevole *ben11 = nouveauBen("a", "a", 20, 'M', 1941);
 
     
-    
-    Tranche *racine = ajoutTranche(NULL,35);
+ 
+    racine = ajoutTranche(racine,35);
     ajoutTranche(racine, 25);
     ajoutTranche(racine, 55);
     ajoutTranche(racine, 45);
@@ -65,6 +65,7 @@ int main() {
     afficherTranche(racine, 75);
     afficherTranche(racine, 35);
     
+    
 
     
     //-------------------------
@@ -84,11 +85,10 @@ int main() {
     supprimerTranche(racine, 35);
     printf("\n");
     afficherArbre(racine);
-     
+     */
     
   printf("\nFin de la phase de test des fonctions.\n");
-    */
-    
+  
     
     //**************
     //*****Menu*****
@@ -99,11 +99,13 @@ int main() {
         char benevoleNom[35];
         char benevolePrenom[35];
         int benevoleCIN = 0;
+        int benevoleNumberSexe = 0;
         char benevoleSexe;
         int benevoleAnneeDeNaissance = 0;
         ListBenevoles *liste_benevoles_honneur = NULL;
         Benevole *benevole_a_supprimer = NULL;
         
+        printf("\n");
         printf("Initialisez un arbre - tapez 1\n");
         printf("Ajoutez une tranche - tapez 2\n");
         printf("Ajouter un bénévole dans une tranche d’âge - tapez 3\n");
@@ -118,17 +120,20 @@ int main() {
         printf("Détruire l’arbre - tapez 12\n");
         printf("Quittez - tapez 13\n");
         scanf("%d",&choix);
-        if(racine==NULL&&choix==1){
+        if(racine==NULL&&choix==1&&quitter==0){
             printf("Veuillez entrer la valeur de la racine\n");
             scanf("%d",&borneTranche);
             racine = nouvelleTranche(borneTranche);
             printf("\n");
         }
-        else if(choix!=1&&racine==NULL){
+        else if(choix!=1&&racine==NULL&&quitter==0){
             printf("\nVeuillez initialiser l'arbre avec l'action 1\n\n");
         }
         else{
             switch (choix) {
+                case 1:
+                    printf("\nl'abre est deja initialise\n");
+                    break;
                 case 2:
                     printf("Veuillez entrer la valeur de la tranche a ajouter\n");
                     scanf("%d",&borneTranche);
@@ -142,8 +147,13 @@ int main() {
                     scanf("%s",benevolePrenom);
                     printf("Veuillez entrer le CIN du benevole\n");
                     scanf("%d",&benevoleCIN);
-                    printf("Veuillez entrer le sexe du benevole\n");
-                    scanf("%s",&benevoleSexe);
+                    //On pourrait egalement utiliser la fonction getchar()
+                    printf("Veuillez entrer le sexe du benevole (0 pour M, 1 pour F)\n");
+                    scanf("%d",&benevoleNumberSexe);
+                    if(benevoleNumberSexe==0)
+                        benevoleSexe = 'M';
+                    else
+                        benevoleSexe = 'F';
                     printf("Veuillez entrer l'annee de naissance du benevole\n");
                     scanf("%d",&benevoleAnneeDeNaissance);
                     insererBen(racine, nouveauBen(benevoleNom, benevolePrenom, benevoleCIN, benevoleSexe, benevoleAnneeDeNaissance));
@@ -220,11 +230,17 @@ int main() {
                     free(racine->listBenevole);
                     free(racine);
                     racine = NULL;
+                    quitter = 1;
                     printf("\n");
                     break;
                 case 13:
-                    printf("\n");
-                    choix = 0;
+                    if(racine!=NULL){
+                        printf("Veuillez detruire l arbre avant\n");
+                    }
+                    else{
+                        printf("\n");
+                        mise_en_route = 0;
+                    }
                     break;
                 default:
                     printf("\ntVeuillez saisir une valeur valide\n");
@@ -232,5 +248,6 @@ int main() {
             }
         }
     }
+    
             return 0;
 }
