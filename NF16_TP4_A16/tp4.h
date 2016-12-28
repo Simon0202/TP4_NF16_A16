@@ -101,7 +101,7 @@ int totalBenTranche(Tranche *racine, int borneSup); //*
 int totalBen(Tranche *racine);  //*
 float pourcentageTranche(Tranche *racine, int borneSup);    //*
 
-
+Tranche *retournePere(Tranche *racine, int borneSup);
 
 //Time
 int anneeActuelle();

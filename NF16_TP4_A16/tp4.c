@@ -382,40 +382,105 @@ Tranche *suppTousBenevole(Tranche *trancheSupprimer){
 }
 //Fin de supprimer tous les benevole dans une tranche
 
+
+
+
 int supprimerTranche(Tranche *racine, int borneSup){
     
-    Tranche *trancheSupprimer = racine;
+    Tranche *root = racine;
     Tranche *pere = NULL;
+    Tranche *min = NULL;
+    Tranche *tranche_a_supprimer = NULL;
+    Benevole *benevole_a_supprimer = NULL;
     
-    if(racine == NULL){
+    
+    if(root == NULL){
         printf("Il n'y a pas d'arbre a supprimer\n");
         return 0;
     }
     
-    while(trancheSupprimer!=NULL && trancheSupprimer->borneSup!=borneSup){
-        pere = trancheSupprimer;
-        if(trancheSupprimer->borneSup > borneSup)
-            trancheSupprimer = trancheSupprimer->filsG;
-        else if(trancheSupprimer->borneSup < borneSup)
-            trancheSupprimer = trancheSupprimer->filsD;
+    
+    while(root!=NULL && root->borneSup!=borneSup){
+        if(root->borneSup > borneSup){
+            pere = root;
+            root=root->filsG;
+        }
+        else if(root->borneSup < borneSup){
+            pere = root;
+            root= root->filsD;
+        }
     }
     
-    if(trancheSupprimer == NULL){
-        printf("Il n'y a pas ce tranche\n");
+    if(root==NULL){
+        printf("La tranche n'existe pas");
         return 0;
     }
     
-    if(trancheSupprimer->listBenevole->nbreElement == 0){
-        racine = supprimerNoeud(racine, trancheSupprimer);
+    
+    while(root->listBenevole->nbreElement!=0){
+        benevole_a_supprimer = root->listBenevole->benevole;
+        
+        root->listBenevole->benevole = root->listBenevole->benevole->suivant;
+        root->listBenevole->nbreElement--;
+        
+        benevole_a_supprimer->suivant=NULL;
+        free(benevole_a_supprimer->nom);
+        free(benevole_a_supprimer->prenom);
+        free(benevole_a_supprimer);
+    }
+    
+    //Suppression
+    if(pere==NULL){
+        min = ArbreMin(root->filsD);
+        min->filsG = root->filsG;
+        if(min->filsD==NULL)
+            min->filsD = root->filsD;
+        else{
+            retournePere(racine, root->borneSup)->filsG = min->filsD;
+            min->filsD = root->filsD;
+        }
+        racine = min;
+        free(root->listBenevole);
+        free(root);
         return 1;
     }
+    
+    if(root->filsG==NULL){
+        if(root->borneSup<=pere->borneSup)
+            pere->filsG = root->filsD;
+        else
+            pere->filsD = root->filsD;
+        free(root->listBenevole);
+        free(root);
+        return 1;
+    }
+    
+    min = ArbreMin(root->filsD);
+    if(min->borneSup<=pere->borneSup)
+        pere->filsG = min;
+    else
+        pere->filsD = min;
+    
+    if(min!=root->filsG)
+        min->filsG = root->filsG;
+    else
+        min->filsG = NULL;
+    
+    if(min->filsD==NULL)
+        min->filsD = root->filsD;
     else{
-        trancheSupprimer = suppTousBenevole(trancheSupprimer);
-        racine = supprimerNoeud(racine, trancheSupprimer);
-        return 1;
+        root->filsD->filsG = min->filsD;
+        min->filsD = root->filsD;
     }
+
+    racine = min;
+    free(root->listBenevole);
+    free(root);
+    return 1;
+    
+    
 }
-//Fin de supprimer Tranche
+//fin de supprimer Tranche
 
 
 
@@ -573,6 +638,29 @@ Tranche *Successeur(Tranche *noeud){
     }
     return pere;
 }
+
+
+Tranche *retournePere(Tranche *racine, int borneSup){
+    Tranche *pere = NULL;
+    
+    while(racine!=NULL && racine->borneSup!=borneSup){
+        if(racine->borneSup<=borneSup){
+            pere = racine;
+            racine = racine->filsD;
+        }
+        else{
+            pere = racine;
+            racine = racine->filsG;
+        }
+    }
+    
+    return pere;
+}
+//Fin de retournerPere
+
+
+
+
 
 int totalBenTranche(Tranche *racine, int borneSup){
     

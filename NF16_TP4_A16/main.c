@@ -61,6 +61,13 @@ int main() {
     afficherTranche(racine, 75);
     afficherTranche(racine, 35);
     
+    
+    
+    
+    
+    
+    /*
+    
     //-------------------------
     supprimerBen(racine, 13 , 1942);    //supprimer un benevole
     afficherTranche(racine, 75);
@@ -73,7 +80,7 @@ int main() {
     printf("%.2f%%\n",pourcentageTranche(racine, 35));
     printf("%.2f%%\n",pourcentageTranche(racine, 75));
     //-------------------------
-    
+    */
     printf("Fin de la phase de test des fonctions.\n");
 
     
