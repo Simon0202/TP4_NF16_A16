@@ -388,17 +388,15 @@ Tranche *suppTousBenevole(Tranche *trancheSupprimer){
 int supprimerTranche(Tranche *racine, int borneSup){
     
     Tranche *root = racine;
+    Tranche *tranche_a_supprimer = NULL;
     Tranche *pere = NULL;
     Tranche *min = NULL;
-    Tranche *tranche_a_supprimer = NULL;
     Benevole *benevole_a_supprimer = NULL;
-    
     
     if(root == NULL){
         printf("Il n'y a pas d'arbre a supprimer\n");
         return 0;
     }
-    
     
     while(root!=NULL && root->borneSup!=borneSup){
         if(root->borneSup > borneSup){
@@ -416,7 +414,6 @@ int supprimerTranche(Tranche *racine, int borneSup){
         return 0;
     }
     
-    
     while(root->listBenevole->nbreElement!=0){
         benevole_a_supprimer = root->listBenevole->benevole;
         
@@ -429,19 +426,28 @@ int supprimerTranche(Tranche *racine, int borneSup){
         free(benevole_a_supprimer);
     }
     
+    
+    
+    
     //Suppression
     if(pere==NULL){
         min = ArbreMin(root->filsD);
+        
+        //Etant le min, il n'a pas de fils gauche
         min->filsG = root->filsG;
-        if(min->filsD==NULL)
+        if(min->filsD==NULL){
+            //On met le gauche de son pere à nul pour eviter de former un cycle
+            retournePere(racine, min->borneSup)->filsG=NULL;
             min->filsD = root->filsD;
+        }
         else{
             retournePere(racine, root->borneSup)->filsG = min->filsD;
             min->filsD = root->filsD;
         }
-        racine = min;
+        
         free(root->listBenevole);
         free(root);
+        
         return 1;
     }
     
@@ -473,9 +479,8 @@ int supprimerTranche(Tranche *racine, int borneSup){
         min->filsD = root->filsD;
     }
 
-    racine = min;
-    free(root->listBenevole);
-    free(root);
+    free(racine->listBenevole);
+    free(racine);
     return 1;
     
     
