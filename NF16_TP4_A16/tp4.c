@@ -218,6 +218,208 @@ ListBenevoles *BenDhonneur(Tranche *racine){
 //*********************
 //*****Suppression*****
 //*********************
+Tranche *supprimerNoeud(Tranche *racine,Tranche *currentTranche){
+    
+    Tranche *pere = currentTranche->pere;
+    Tranche *succ = NULL;
+    
+    //root
+    if(currentTranche == racine)
+    {
+        if(currentTranche->filsG == NULL && currentTranche->filsD == NULL){
+            racine = NULL;
+            free(currentTranche->listBenevole);
+            free(currentTranche);
+            return racine;
+        }
+        else if(currentTranche->filsG == NULL && currentTranche->filsD != NULL){     //un seul fils doite
+            currentTranche->filsD->pere = NULL;
+            racine = currentTranche->filsD;
+        }
+        else if(currentTranche->filsD == NULL && currentTranche->filsG != NULL){     //un seul fils gauche
+            currentTranche->filsG->pere = NULL;
+            racine = currentTranche->filsG;
+        }
+        else{   //deux fils
+            succ = Successeur(currentTranche);
+            succ->filsG = currentTranche->filsG;
+            if(currentTranche->filsD != succ)
+                succ->filsD = currentTranche->filsD;
+            else
+                succ->filsD = NULL;
+            if(succ == succ->pere->filsG)
+                succ->pere->filsG = NULL;
+            else
+                succ->pere->filsD = NULL;
+            succ->pere = NULL;
+            racine = succ;
+        }
+        free(currentTranche->listBenevole);
+        free(currentTranche);
+        return racine;
+    }
+    
+    //feuille
+    if(currentTranche->filsG == NULL && currentTranche->filsD == NULL){
+        if (currentTranche == pere->filsG)
+            pere->filsG = NULL;
+        else
+            pere->filsD = NULL;
+        free(currentTranche->listBenevole);
+        free(currentTranche);
+        return racine;
+    }
+    
+    //pas root
+    if(currentTranche == pere->filsG){
+        if(currentTranche->filsG == NULL && currentTranche->filsD != NULL){     //un seul fils doite
+            pere->filsG = currentTranche->filsD;
+            currentTranche->filsD->pere = pere;
+        }
+        else if(currentTranche->filsD == NULL && currentTranche->filsG != NULL){     //un seul fils gauche
+            pere->filsG = currentTranche->filsG;
+            currentTranche->filsG->pere = pere;
+        }
+        else{   //deux fils
+            succ = Successeur(currentTranche);
+            succ->filsG = currentTranche->filsG;
+            if(currentTranche->filsD != succ)
+                succ->filsD = currentTranche->filsD;
+            else
+                succ->filsD = NULL;
+            if(succ == succ->pere->filsG)
+                succ->pere->filsG = NULL;
+            else
+                succ->pere->filsD = NULL;
+            pere->filsG = succ;
+            succ->pere = currentTranche->pere;
+        }
+    }
+    if(currentTranche == pere->filsD){
+        if(currentTranche->filsG == NULL && currentTranche->filsD != NULL){     //un seul fils doite
+            pere->filsD = currentTranche->filsD;
+            currentTranche->filsD->pere = pere;
+        }
+        if(currentTranche->filsD == NULL && currentTranche->filsG != NULL){     //un seul fils gauche
+            pere->filsD = currentTranche->filsG;
+            currentTranche->filsG->pere = pere;
+        }
+        else{   //deux fils
+            succ = Successeur(currentTranche);
+            succ->filsG = currentTranche->filsG;
+            if(currentTranche->filsD != succ)
+                succ->filsD = currentTranche->filsD;
+            else
+                succ->filsD = NULL;
+            if(succ == succ->pere->filsG)
+                succ->pere->filsG = NULL;
+            else
+                succ->pere->filsD = NULL;
+            pere->filsD = succ;
+            succ->pere = currentTranche->pere;
+        }
+    }
+    free(currentTranche->listBenevole);
+    free(currentTranche);
+    return racine;
+}
+//Fin de supprimer un noeud
+
+int supprimerBen(Tranche *racine, int CIN, int annee){
+    Tranche *currentTranche = racine;
+    int borneSup = calculTrancheAnnee(annee);
+    Benevole *benevoleSupprimer = NULL;
+    Benevole *pred = NULL;
+    
+    while(currentTranche!=NULL && currentTranche->borneSup!=borneSup){
+        if(currentTranche->borneSup > borneSup)
+            currentTranche = currentTranche->filsG;
+        else if(currentTranche->borneSup < borneSup)
+            currentTranche= currentTranche->filsD;
+    }
+    
+    if(racine==NULL){
+        printf("Il y a aucun arbre.");
+        return 0;
+    }
+    
+    benevoleSupprimer = currentTranche->listBenevole->benevole;
+    
+    while(benevoleSupprimer!=NULL && benevoleSupprimer->carteIdentite!=CIN){
+        pred = benevoleSupprimer;
+        benevoleSupprimer = benevoleSupprimer->suivant;
+    }
+    
+    if(benevoleSupprimer==NULL){
+        printf("Le benevole a supprimer n'existe pas");
+        return 0;
+    }
+    
+    if(pred == NULL){
+        currentTranche->listBenevole->benevole = NULL;
+        free(benevoleSupprimer);
+        currentTranche->listBenevole->nbreElement--;
+        racine = supprimerNoeud(racine, currentTranche);
+        return 1;
+    }
+    
+    pred->suivant = benevoleSupprimer->suivant;
+    free(benevoleSupprimer);
+    currentTranche->listBenevole->nbreElement--;
+    return 1;
+}
+//Fin de supprimer Benevole
+
+Tranche *suppTousBenevole(Tranche *trancheSupprimer){
+    Benevole *premier = trancheSupprimer->listBenevole->benevole;
+    while(premier != NULL)
+    {
+        trancheSupprimer->listBenevole->benevole = premier->suivant;
+        free(premier);
+        premier = trancheSupprimer->listBenevole->benevole;
+    }
+    return trancheSupprimer;
+}
+//Fin de supprimer tous les benevole dans une tranche
+
+int supprimerTranche(Tranche *racine, int borneSup){
+    
+    Tranche *trancheSupprimer = racine;
+    Tranche *pere = NULL;
+    
+    if(racine == NULL){
+        printf("Il n'y a pas d'arbre a supprimer\n");
+        return 0;
+    }
+    
+    while(trancheSupprimer!=NULL && trancheSupprimer->borneSup!=borneSup){
+        pere = trancheSupprimer;
+        if(trancheSupprimer->borneSup > borneSup)
+            trancheSupprimer = trancheSupprimer->filsG;
+        else if(trancheSupprimer->borneSup < borneSup)
+            trancheSupprimer = trancheSupprimer->filsD;
+    }
+    
+    if(trancheSupprimer == NULL){
+        printf("Il n'y a pas ce tranche\n");
+        return 0;
+    }
+    
+    if(trancheSupprimer->listBenevole->nbreElement == 0){
+        racine = supprimerNoeud(racine, trancheSupprimer);
+        return 1;
+    }
+    else{
+        trancheSupprimer = suppTousBenevole(trancheSupprimer);
+        racine = supprimerNoeud(racine, trancheSupprimer);
+        return 1;
+    }
+}
+//Fin de supprimer Tranche
+
+
+
+
 
 
 //*********************
@@ -260,6 +462,16 @@ void afficherTranche(Tranche *racine, int borneSup){
     }
 }
 //Fin de afficher tranche
+
+void afficherArbre(Tranche *racine){
+    if(racine->filsG!=NULL)
+        afficherArbre(racine->filsG);
+    printf("%d\t",racine->borneSup);
+    if (racine->filsD!=NULL) {
+        afficherArbre(racine->filsD);
+    }
+}
+//Fin de ParcoursArbre
 
 
 
@@ -343,16 +555,93 @@ int ajoutBenevole(ListBenevoles* liste,Benevole *benevole){
 
 
 
-
-void ParcoursArbre(Tranche *racine){
-    if(racine->filsG!=NULL)
-        ParcoursArbre(racine->filsG);
-    printf("%d\t",racine->borneSup);
-    if (racine->filsD!=NULL) {
-        ParcoursArbre(racine->filsD);
-    }
+Tranche *ArbreMin(Tranche *noeud){
+    while(noeud->filsG != NULL)
+        noeud = noeud->filsG;
+    return noeud;
 }
-//Fin de ParcoursArbre
+
+Tranche *Successeur(Tranche *noeud){
+    Tranche *pere = NULL;
+    
+    if(noeud->filsD != NULL)
+        return ArbreMin(noeud->filsD);
+    pere = noeud->pere;
+    while(pere != NULL && noeud == pere->filsD){
+        noeud = pere;
+        pere = noeud->pere;
+    }
+    return pere;
+}
+
+int totalBenTranche(Tranche *racine, int borneSup){
+    
+    Tranche *currentTranche = racine;
+    
+    if(racine == NULL){
+        printf("Pas d'arbre\n");
+        return -2;
+    }
+    while(currentTranche!=NULL && currentTranche->borneSup!=borneSup){
+        if(currentTranche->borneSup > borneSup)
+            currentTranche = currentTranche->filsG;
+        else if(currentTranche->borneSup < borneSup)
+            currentTranche= currentTranche->filsD;
+    }
+    
+    if(currentTranche == NULL){
+        printf("Pas de tranche\n");
+        return -1;
+    }
+    
+    return currentTranche->listBenevole->nbreElement;
+}
+//Fin de nombre de bénévoles d’une tranche
+
+int totalBen(Tranche *racine){
+    
+    int total = 0;
+    Tranche *currentfTranche = ArbreMin(racine);
+    
+    if(racine == NULL){
+        printf("Pas d'arbre\n");
+        return -2;
+    }
+    while (currentfTranche != NULL) {
+        total += currentfTranche->listBenevole->nbreElement;
+        currentfTranche = Successeur(currentfTranche);
+    }
+    
+    return total;
+}
+//Fin de total de bénévoles de l’association
+
+float pourcentageTranche(Tranche *racine, int borneSup){
+    
+    float totalTranche = (float)totalBenTranche(racine, borneSup);
+    float total = (float)totalBen(racine);
+    
+    if(total == -2){
+        printf("Pas d'arbre\n");
+        return -2;
+    }
+    else if(totalTranche == -1){
+        printf("Pas de tranche\n");
+        return -1;
+    }
+    else if(total == 0){
+        printf("Il n'y a pas de benevole dans l'arbre\n");
+        return 0;
+    }
+    else
+        return totalTranche/total*100;
+}
+//Fin de pourcentage de bénévoles d’une tranche d’âge.
+
+
+
+
+
 
 
 

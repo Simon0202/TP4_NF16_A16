@@ -66,7 +66,11 @@ ListBenevoles *BenDhonneur(Tranche *racine);
 //*********************
 //*****Suppression*****
 //*********************
+Tranche *supprimerNoeud(Tranche *racine,Tranche *currentTranche);//*
+Tranche *suppTousBenevole(Tranche *trancheSupprimer);//*
 
+int supprimerBen(Tranche *racine, int CIN, int annee);  //*
+int supprimerTranche(Tranche *racine, int borneSup);    //*
 
 
 //*********************
@@ -79,6 +83,7 @@ ListBenevoles *BenDhonneur(Tranche *racine);
 //*****Affichage*****
 //*******************
 void afficherTranche(Tranche *racine, int borneSup);
+void afficherArbre(Tranche *racine);    //* meme de ParcoursArbre
 
 
 
@@ -88,7 +93,13 @@ void afficherTranche(Tranche *racine, int borneSup);
 int calculTrancheBenevole(Benevole *benevole);
 int calculTrancheAnnee(int annee);
 int ajoutBenevole(ListBenevoles* liste,Benevole *benevole);
-void ParcoursArbre(Tranche *racine);
+
+Tranche *ArbreMin(Tranche *noeud);  //*
+Tranche *Successeur(Tranche *noeud);    //*
+
+int totalBenTranche(Tranche *racine, int borneSup); //*
+int totalBen(Tranche *racine);  //*
+float pourcentageTranche(Tranche *racine, int borneSup);    //*
 
 
 

@@ -47,7 +47,7 @@ int main() {
     printf("Le benevole s'appelle: %s\n", chercherBen(racine, 123, 1995)->prenom);
     printf("Le benevole s'appelle: %s\n", chercherBen(racine, 3, 1943)->prenom);
     
-    ParcoursArbre(racine);
+    afficherArbre(racine);
     printf("\n");
     
     
@@ -60,6 +60,19 @@ int main() {
     
     afficherTranche(racine, 75);
     afficherTranche(racine, 35);
+    
+    //-------------------------
+    supprimerBen(racine, 13 , 1942);    //supprimer un benevole
+    afficherTranche(racine, 75);
+    supprimerBen(racine, 123, 1995);    //supprimer un benevole puis supprimer la tranche
+    afficherArbre(racine);
+    printf("\n");
+    //supprimerTranche(racine, 35);   //j'ai pas reussi parce que le contenu d'arbre n'est pas modifie apres la fonction
+    //afficherArbre(racine);
+    //printf("\n");
+    printf("%.2f%%\n",pourcentageTranche(racine, 35));
+    printf("%.2f%%\n",pourcentageTranche(racine, 75));
+    //-------------------------
     
     printf("Fin de la phase de test des fonctions.\n");
 
