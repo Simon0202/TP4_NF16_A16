@@ -349,6 +349,10 @@ int supprimerBen(Tranche *racine, int CIN, int annee){
         printf("Il y a aucun arbre.");
         return 0;
     }
+    if(currentTranche==NULL){
+        printf("Il y a aucun arbre.");
+        return 0;
+    }
     
     benevoleSupprimer = currentTranche->listBenevole->benevole;
     
