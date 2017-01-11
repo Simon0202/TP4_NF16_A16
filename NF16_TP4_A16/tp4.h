@@ -107,5 +107,8 @@ Tranche *retournePere(Tranche *racine, int borneSup);
 int anneeActuelle();
 
 
+//++
+ListBenevoles *infixe(Tranche *racine);
+
 
 #endif /* tp4_h */

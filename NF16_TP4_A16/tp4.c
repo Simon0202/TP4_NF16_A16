@@ -430,9 +430,9 @@ int supprimerTranche(Tranche *racine, int borneSup){
         free(benevole_a_supprimer->nom);
         free(benevole_a_supprimer->prenom);
         free(benevole_a_supprimer);
-        free(racine->listBenevole);
     }
-    
+    free(racine->listBenevole);
+   
     //On est a la racine, on ne peut pas supprimer
     if(pere==NULL){
         printf("Interdiction de supprimer la racine.\nPour ce faire appeler la fonction 12\n");
@@ -447,11 +447,24 @@ int supprimerTranche(Tranche *racine, int borneSup){
     
     
     if(tranche_a_supprimer->filsG==NULL){
-        if(tranche_a_supprimer->borneSup<=pere->borneSup)
-            pere->filsG = tranche_a_supprimer->filsD;
-        else
-            pere->filsD = tranche_a_supprimer->filsD;
-        
+        if(tranche_a_supprimer->filsD!=NULL){
+            if(tranche_a_supprimer->borneSup<=pere->borneSup){
+                tranche_a_supprimer->filsD->pere = tranche_a_supprimer->pere;
+                pere->filsG = tranche_a_supprimer->filsD;
+            }
+            else{
+                tranche_a_supprimer->filsG->pere = tranche_a_supprimer->pere;
+                pere->filsD = tranche_a_supprimer->filsG;
+            }
+        }
+        else{
+            if(tranche_a_supprimer->borneSup<=pere->borneSup){
+                pere->filsG = NULL;
+            }
+            else{
+                pere->filsD = NULL;
+            }
+        }
         free(tranche_a_supprimer);
         tranche_a_supprimer=NULL;
         return 1;
@@ -641,8 +654,20 @@ void afficherTranche(Tranche *racine, int borneSup){
     }
 }
 //Fin de afficher tranche
-
-
+/*
+ListBenevoles *infixe(Tranche *racine){
+    if(racine->filsD!=NULL)
+        infixe(racine->filsD);
+    if(racine->listBenevole->nbreElement!=0)
+        return BenDhonneur(racine);
+    else
+        infixe(racine)
+    if (racine->filsG!=NULL) {
+        afficherArbre(racine->filsG);
+    }
+    return NULL;
+}
+ */
 
 void afficherArbre(Tranche *racine){
     if(racine->filsG!=NULL)
